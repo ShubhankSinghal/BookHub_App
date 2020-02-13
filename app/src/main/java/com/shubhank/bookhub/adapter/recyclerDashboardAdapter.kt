@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.bookhub.R
-import com.shubhank.bookhub.model.book
+import com.shubhank.bookhub.model.Book
 
-class recyclerDashboardAdapter(context: Context, val itemList: ArrayList<book>): RecyclerView.Adapter<recyclerDashboardAdapter.DashboardViewHolder>() {
+class recyclerDashboardAdapter(context: Context, val itemList: ArrayList<Book>): RecyclerView.Adapter<recyclerDashboardAdapter.DashboardViewHolder>() {
 
     class DashboardViewHolder(view:View) : RecyclerView.ViewHolder(view){
         val textBookName: TextView = view.findViewById(R.id.txtBookName)
