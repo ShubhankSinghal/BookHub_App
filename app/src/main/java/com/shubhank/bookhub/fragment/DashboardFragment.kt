@@ -41,11 +41,16 @@ class DashboardFragment : Fragment() {
         Book("War and Peace", "Leo Tolstoy", "Rs. 249", "4.8", R.drawable.war_and_peace),
         Book("Lolita", "Vladimir Nabokov", "Rs. 349", "3.9", R.drawable.lolita),
         Book("Middlemarch", "George Eliot", "Rs. 599", "4.2", R.drawable.middlemarch),
-        Book("The Adventures of Huckleberry Finn", "Mark Twain", "Rs. 699", "4.5", R.drawable.adventures_finn),
+        Book(
+            "The Adventures of Huckleberry Finn",
+            "Mark Twain",
+            "Rs. 699",
+            "4.5",
+            R.drawable.adventures_finn
+        ),
         Book("Moby-Dick", "Herman Melville", "Rs. 499", "4.5", R.drawable.moby_dick),
         Book("The Lord of the Rings", "J.R.R Tolkien", "Rs. 749", "5.0", R.drawable.lord_of_rings)
     )
-
 
 
     lateinit var recyclerAdapter: recyclerDashboardAdapter
@@ -57,7 +62,7 @@ class DashboardFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        recyclerDashboard = view.findViewById(R.id.dashboard)
+        recyclerDashboard = view.findViewById(R.id.recyclerDashboard)
 
         layoutManager = LinearLayoutManager(activity)
 
@@ -67,7 +72,12 @@ class DashboardFragment : Fragment() {
 
         recyclerDashboard.layoutManager = layoutManager
 
-        recyclerDashboard.addItemDecoration(DividerItemDecoration(recyclerDashboard.context, (layoutManager as LinearLayoutManager).orientation))
+        recyclerDashboard.addItemDecoration(
+            DividerItemDecoration(
+                recyclerDashboard.context,
+                (layoutManager as LinearLayoutManager).orientation
+            )
+        )
 
         return view
 
