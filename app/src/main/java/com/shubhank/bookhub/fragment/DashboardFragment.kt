@@ -1,24 +1,29 @@
 package com.shubhank.bookhub.fragment
 
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.bookhub.R
 import com.shubhank.bookhub.adapter.recyclerDashboardAdapter
 import com.shubhank.bookhub.model.Book
+import com.shubhank.bookhub.util.ConnectionManager
 
 class DashboardFragment : Fragment() {
 
     lateinit var recyclerDashboard: RecyclerView
 
     lateinit var layoutManager: RecyclerView.LayoutManager
+
+    lateinit var btnCheckInternet: Button
 
     val bookList = arrayListOf(
         "P.S. I Love You",
@@ -61,6 +66,39 @@ class DashboardFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
+
+        btnCheckInternet = view.findViewById(R.id.btnCheckInternet)
+
+        btnCheckInternet.setOnClickListener {
+            if (ConnectionManager().checkConnectivity((activity as Context))) {
+                //Internet is available
+                val dialog = AlertDialog.Builder(activity as Context)
+                dialog.setTitle("Success")
+                dialog.setMessage("Internet Connection Found")
+                dialog.setPositiveButton("Ok") { text, listener ->
+                    //Do nothing
+                }
+                dialog.setNegativeButton("Cancel") { text, listener ->
+                    //Do nothing
+                }
+                dialog.create()
+                dialog.show()
+            } else {
+                //Internet is not available
+                val dialog = AlertDialog.Builder(activity as Context)
+                dialog.setTitle("Error")
+                dialog.setMessage("Internet Connection Not Found")
+                dialog.setPositiveButton("Ok") { text, listener ->
+                    //Do nothing
+                }
+                dialog.setNegativeButton("Cancel") { text, listener ->
+                    //Do nothing
+                }
+                dialog.create()
+                dialog.show()
+            }
+
+        }
 
         recyclerDashboard = view.findViewById(R.id.recyclerDashboard)
 
