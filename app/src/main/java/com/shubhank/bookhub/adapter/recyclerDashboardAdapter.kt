@@ -11,20 +11,23 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.bookhub.R
 import com.shubhank.bookhub.model.Book
+import com.squareup.picasso.Picasso
 
-class recyclerDashboardAdapter(val context: Context, val itemList: ArrayList<Book>): RecyclerView.Adapter<recyclerDashboardAdapter.DashboardViewHolder>() {
+class recyclerDashboardAdapter(val context: Context, val itemList: ArrayList<Book>) :
+    RecyclerView.Adapter<recyclerDashboardAdapter.DashboardViewHolder>() {
 
-    class DashboardViewHolder(view:View) : RecyclerView.ViewHolder(view){
+    class DashboardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textBookName: TextView = view.findViewById(R.id.txtBookName)
         val textBookAuthor: TextView = view.findViewById(R.id.txtBookAuthor)
         val textBookPrice: TextView = view.findViewById(R.id.txtBookPrice)
         val textBookRating: TextView = view.findViewById(R.id.txtBookRating)
         val imgBookImage: ImageView = view.findViewById(R.id.imgBookImage)
-        val llContent :LinearLayout = view.findViewById(R.id.llContent)
+        val llContent: LinearLayout = view.findViewById(R.id.llContent)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_dashboard_single_row, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.recycler_dashboard_single_row, parent, false)
 
         return DashboardViewHolder(view)
     }
@@ -37,11 +40,13 @@ class recyclerDashboardAdapter(val context: Context, val itemList: ArrayList<Boo
         val book = itemList[position]
         holder.textBookName.text = book.bookName
         holder.textBookAuthor.text = book.bookAuthor
-        holder.textBookPrice.text = book.bookCost
+        holder.textBookPrice.text = book.bookPrice
         holder.textBookRating.text = book.bookRating
-        holder.imgBookImage.setImageResource(book.bookImage)
-        holder.llContent.setOnClickListener{
-            Toast.makeText( context , "Clicked on ${holder.textBookName.text}",Toast.LENGTH_SHORT).show()
+        /*holder.imgBookImage.setImageResource(book.bookImage)*/
+        Picasso.get().load(book.bookImage).into(holder.imgBookImage);
+        holder.llContent.setOnClickListener {
+            Toast.makeText(context, "Clicked on ${holder.textBookName.text}", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
