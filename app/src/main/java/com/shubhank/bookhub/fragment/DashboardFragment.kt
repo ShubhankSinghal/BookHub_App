@@ -11,12 +11,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -24,7 +22,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.shubhank.bookhub.R
-import com.shubhank.bookhub.adapter.recyclerDashboardAdapter
+import com.shubhank.bookhub.adapter.DashboardRecyclerAdapter
 import com.shubhank.bookhub.model.Book
 import com.shubhank.bookhub.util.ConnectionManager
 import org.json.JSONException
@@ -43,7 +41,7 @@ class DashboardFragment : Fragment() {
 
     val bookInfoList = arrayListOf<Book>()
 
-    lateinit var recyclerAdapter: recyclerDashboardAdapter
+    lateinit var recyclerAdapter: DashboardRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,7 +125,7 @@ class DashboardFragment : Fragment() {
                                 )
                                 bookInfoList.add(bookObject)
                                 recyclerAdapter =
-                                    recyclerDashboardAdapter(activity as Context, bookInfoList)
+                                    DashboardRecyclerAdapter(activity as Context, bookInfoList)
 
                                 recyclerDashboard.adapter = recyclerAdapter
 

@@ -13,8 +13,8 @@ import com.shubhank.bookhub.R
 import com.shubhank.bookhub.model.Book
 import com.squareup.picasso.Picasso
 
-class recyclerDashboardAdapter(val context: Context, val itemList: ArrayList<Book>) :
-    RecyclerView.Adapter<recyclerDashboardAdapter.DashboardViewHolder>() {
+class DashboardRecyclerAdapter(val context: Context, val itemList: ArrayList<Book>) :
+    RecyclerView.Adapter<DashboardRecyclerAdapter.DashboardViewHolder>() {
 
     class DashboardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textBookName: TextView = view.findViewById(R.id.txtBookName)

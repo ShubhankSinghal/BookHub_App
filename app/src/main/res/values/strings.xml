@@ -14,4 +14,5 @@
     <string name="about_app_fragment">About App Fragment</string>
     <string name="profile_fragment">Profile Fragment</string>
     <string name="favorites_fragment">Favorites Fragment</string>
+    <string name="add_to_favorites">Add to Favorites</string>
 </resources>
