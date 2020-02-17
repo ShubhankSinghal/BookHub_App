@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.shubhank.bookhub.R
+import com.shubhank.bookhub.util.ConnectionManager
 import com.squareup.picasso.Picasso
 import okhttp3.Headers
 import org.json.JSONObject
@@ -22,9 +24,11 @@ class DescriptionActivity : AppCompatActivity() {
     lateinit var txtBookRating: TextView
     lateinit var imgBookImage: ImageView
     lateinit var textBookDesc: TextView
-    lateinit var btnAddToFavorites: TextView
+    lateinit var btnAddToFavorites: Button
     lateinit var progressLayout: RelativeLayout
     lateinit var progressBar: ProgressBar
+
+    lateinit var toolbar: Toolbar
 
     var bookId: String? = "100"
 
@@ -43,6 +47,10 @@ class DescriptionActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
         progressLayout = findViewById(R.id.progressLayout)
         progressLayout.visibility = View.VISIBLE
+
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Book Details"
 
         if (intent != null) {
             bookId = intent.getStringExtra("book_id")
@@ -64,61 +72,67 @@ class DescriptionActivity : AppCompatActivity() {
             ).show()
         }
 
+
         val queue = Volley.newRequestQueue(this@DescriptionActivity)
         val url = "http://13.235.250.119/v1/book/get_book/"
 
         val jsonParams = JSONObject()
         jsonParams.put("book_id", bookId)
 
-        val jsonRequest =
-            object : JsonObjectRequest(Request.Method.POST, url, jsonParams, Response.Listener {
+        if(ConnectionManager().checkConnectivity(this@DescriptionActivity)){
 
-                try {
+            val jsonRequest =
+                object : JsonObjectRequest(Request.Method.POST, url, jsonParams, Response.Listener {
 
-                    val success = it.getBoolean("success")
-                    if (success) {
-                        val bookJSONObject = it.getJSONObject("book_data")
-                        progressLayout.visibility = View.GONE
+                    try {
 
-                        Picasso.get().load(bookJSONObject.getString("image"))
-                            .error(R.drawable.default_book_cover).into(imgBookImage)
-                        txtBookName.text = bookJSONObject.getString("name")
-                        txtBookAuthor.text = bookJSONObject.getString("author")
-                        txtBookRating.text = bookJSONObject.getString("rating")
-                        txtBookPrice.text = bookJSONObject.getString("price")
-                        textBookDesc.text = bookJSONObject.getString("description")
-                    } else {
+                        val success = it.getBoolean("success")
+                        if (success) {
+                            val bookJSONObject = it.getJSONObject("book_data")
+                            progressLayout.visibility = View.GONE
+
+                            Picasso.get().load(bookJSONObject.getString("image"))
+                                .error(R.drawable.default_book_cover).into(imgBookImage)
+                            txtBookName.text = bookJSONObject.getString("name")
+                            txtBookAuthor.text = bookJSONObject.getString("author")
+                            txtBookRating.text = bookJSONObject.getString("rating")
+                            txtBookPrice.text = bookJSONObject.getString("price")
+                            textBookDesc.text = bookJSONObject.getString("description")
+                        } else {
+                            Toast.makeText(
+                                this@DescriptionActivity,
+                                "Some Error has Occurred",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    } catch (e: Exception) {
+
                         Toast.makeText(
                             this@DescriptionActivity,
                             "Some Error has Occurred",
                             Toast.LENGTH_SHORT
                         ).show()
+
                     }
 
-                } catch (e: Exception) {
+                }, Response.ErrorListener {
 
                     Toast.makeText(
                         this@DescriptionActivity,
-                        "Some Error has Occurred",
+                        "Volley error $it!!!",
                         Toast.LENGTH_SHORT
                     ).show()
-
+                }) {
+                    override fun getHeaders(): MutableMap<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Content-type"] = "application/Json"
+                        headers["tokens"] = "6f5311403e6661"
+                        return headers
+                    }
                 }
+            queue.add(jsonRequest)
 
-            }, Response.ErrorListener {
-
-                Toast.makeText(
-                    this@DescriptionActivity,
-                    "Volley error $it!!!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }) {
-                override fun getHeaders(): MutableMap<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Content-type"] = "application/Json"
-                    headers["tokens"] = "6f5311403e6661"
-                    return headers
-                }
-            }
+        }
     }
 }
