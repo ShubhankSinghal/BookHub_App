@@ -1,6 +1,7 @@
 package com.shubhank.bookhub.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.bookhub.R
+import com.shubhank.bookhub.activity.DescriptionActivity
 import com.shubhank.bookhub.model.Book
 import com.squareup.picasso.Picasso
 
@@ -43,11 +45,19 @@ class DashboardRecyclerAdapter(val context: Context, val itemList: ArrayList<Boo
         holder.textBookPrice.text = book.bookPrice
         holder.textBookRating.text = book.bookRating
         /*holder.imgBookImage.setImageResource(book.bookImage)*/
-        Picasso.get().load(book.bookImage).error(R.drawable.default_book_cover).into(holder.imgBookImage);
+        Picasso.get().load(book.bookImage).error(R.drawable.default_book_cover)
+            .into(holder.imgBookImage)
+
         holder.llContent.setOnClickListener {
+            val intent = Intent(context, DescriptionActivity::class.java)
+            intent.putExtra("book_id", book.bookId)
+            context.startActivity(intent)
+        }
+
+        /*holder.llContent.setOnClickListener {
             Toast.makeText(context, "Clicked on ${holder.textBookName.text}", Toast.LENGTH_SHORT)
                 .show()
-        }
+        }*/
     }
 
 }
