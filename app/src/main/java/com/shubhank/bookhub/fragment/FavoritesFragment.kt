@@ -47,7 +47,7 @@ class FavoritesFragment : Fragment() {
 
         dbBookList = RetrieveFavorite(activity as Context).execute().get()
 
-        if(activity != null){
+        if (activity != null) {
             progressLayout.visibility = View.GONE
             recyclerAdapter = FavoriteRecyclerAdapter(activity as Context, dbBookList)
             recyclerFavorite.adapter = recyclerAdapter
@@ -57,7 +57,7 @@ class FavoritesFragment : Fragment() {
         return view
     }
 
-    class RetrieveFavorite(val context: Context): AsyncTask<Void, Void, List<BookEntity>>(){
+    class RetrieveFavorite(val context: Context) : AsyncTask<Void, Void, List<BookEntity>>() {
 
         override fun doInBackground(vararg params: Void?): List<BookEntity> {
             val db = Room.databaseBuilder(context, bookDatabase::class.java, "books-db").build()
