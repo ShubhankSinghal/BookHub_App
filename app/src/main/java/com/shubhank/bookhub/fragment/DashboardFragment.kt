@@ -157,8 +157,14 @@ class DashboardFragment : Fragment() {
 
                 }, Response.ErrorListener {
 
-                    Toast.makeText(activity as Context, "Volley error occurred", Toast.LENGTH_SHORT)
-                        .show()
+                    if (activity != null) {
+                        Toast.makeText(
+                            activity as Context,
+                            "Volley error occurred",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
 
                 }) {
                     override fun getHeaders(): MutableMap<String, String> {
